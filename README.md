@@ -11,6 +11,27 @@ I wanted to create a very, very simple script to do the conversion with no frill
 
 **2020-05-05 Update:** Added Plex Transcoder w/NVENC support as an option.  (Thanks to Plex user /u/cedarrapidsboy for adding)  This is untested on my side, but I've been told it works in the Docker install.  
 
+**Script can be modified to run ffmpeg locally.**
+
+Do the following:
+1. Move the scripts folder with the PlexPostProc.sh script to /config/Library/Application Support/Plex Media Server/Scripts
+2. Move ffmpeg folder to a location accessible by plex user because the script will run:
+/user/media/Scripts/ffmpeg/ffmpeg -i "$FILENAME" -s hd$RES -c:v libx264 -preset veryfast -vf yadif -c:a copy "$TEMPFILENAME"
+Put ffmpeg folder in /mnt/user/media/Scripts/ffmpeg so it can be run.
+Docker:  /user/media/Scripts
+File explorer: \\localserver\media\Scripts or /mnt/user/media/Scripts
+3. Set Plex's post processing script to "PlexPostProc.sh" it will append /config/Library/Application Support/Plex Media Server/Scripts/ to it.
+
+PlexPostProc.sh Loggging and Troubleshooting:
+Turn on verbosity and logging in plex settings and look in Plex Media Server.log file
+Docker: /config/Library/Application Support/Plex Media Server/Logs/ 
+File Explorer: \\localserver\appdata\plex\Library\Application Support\Plex Media Server\Logs or /mnt/user/appdata/plex/Library/Application Support/Plex Media Server/Logs
+
+The script logs into /tmp folder in the docker, look in the file plexpp20200708-231428.log by entering the docker.
+Docker: /tmp
+1. docker exec -it plex /bin/bash
+2. cat /tmp/plexpp20200708-231428.log
+
 ## Prereqs
 FFmpeg or HandBrakeCLI
 
